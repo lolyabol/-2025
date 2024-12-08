@@ -93,34 +93,48 @@
     <div class="login-form">
         <h2>Вход</h2>
         <form id="loginForm">
-            <input type="email" name="email" placeholder="Электронная почта" required>
+            <input type="text" name="login" placeholder="Логин" required>
             <input type="password" name="password" placeholder="Пароль" required>
             <button type="submit">Войти</button>
         </form>
         <div class="message" id="message"></div>
     </div>
-
+    
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault(); 
-
-            const email = this.email.value;
+    
+            const login = this.login.value;
             const password = this.password.value;
-
-            const userData = localStorage.getItem(email);
+    
+            const userData = localStorage.getItem(login); 
+            
             if (userData) {
-                const parsedData = JSON.parse(userData);
+                const parsedData = JSON.parse(userData); 
                 if (parsedData.password === password) {
-
-                    window.location.href = 'Application.html';
+   
+                    if (parsedData.login === 'adminka') {
+                        window.location.href = 'Admin.html'; 
+                    } else {
+                        window.location.href = 'Application.html';
+                    }
                 } else {
-                    document.getElementById('message').textContent = 'Неверный пароль.';
+                    showMessage('Неверный пароль.');
                 }
             } else {
-                document.getElementById('message').textContent = 'Пользователь не найден.';
+                showMessage('Пользователь не найден.'); 
             }
         });
+    
+        function showMessage(message) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            setTimeout(() => {
+                messageDiv.textContent = '';
+            }, 3000); 
+        }
     </script>
+           
 
 </body>
 </html>

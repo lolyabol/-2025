@@ -105,42 +105,76 @@
             <input type="text" name="fullName" placeholder="ФИО" required>
             <input type="tel" name="phone" placeholder="Номер телефона" required>
             <input type="email" name="email" placeholder="Электронная почта" required>
+            <input type="text" name="username" placeholder="Логин" required> <!-- Изменено на username -->
             <input type="password" name="password" placeholder="Пароль" required>
             <button type="submit">Зарегистрироваться</button>
             <p>Или уже есть аккаунт? <a class="Enter" href="Entrance.html">Войти</a></p>
-            <p>Войти как администратор? <a class="Enter" href="Entrance.html">Войти</a></p>
         </form>
         <div class="message" id="message"></div>
         <div class="goodMessage" id="goodMessage"></div>
     </div>
-
+    
     <script>
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault(); 
-
-            const fullName = this.fullName.value;
-            const phone = this.phone.value;
-            const email = this.email.value;
+    
+            const fullName = this.fullName.value.trim();
+            const phone = this.phone.value.trim();
+            const email = this.email.value.trim();
+            const username = this.username.value.trim(); // Изменено на username
             const password = this.password.value;
-
-            if (localStorage.getItem(email)) {
-                document.getElementById('message').textContent = 'Пользователь с такой электронной почтой уже зарегистрирован.';
+    
+            // Проверка на наличие пользователя с таким логином
+            if (localStorage.getItem(username)) {
+                showMessage('Пользователь с таким логином уже зарегистрирован.', 'message');
                 return;
             }
-
+    
             const userData = {
                 fullName,
                 phone,
                 email,
+                username, // Добавлено поле username
                 password
             };
-            document.getElementById('goodMessage').textContent = 'Вы зарегестрированы';
-            localStorage.setItem(email, JSON.stringify(userData));
+            
+            localStorage.setItem(username, JSON.stringify(userData)); // Сохраняем данные под логином
+            
+            showMessage('Вы зарегистрированы', 'goodMessage');
+            
             setTimeout(() => {
                 window.location.href = 'Entrance.html'; 
             }, 2000);
+            
+            // Очистка формы
+            this.reset();
         });
-    </script>
+    
+        function showMessage(message, elementId) {
+            document.getElementById(elementId).textContent = message;
+            setTimeout(() => {
+                document.getElementById(elementId).textContent = '';
+            }, 3000); // Убираем сообщение через 3 секунды
+        }
+        
+        // Проверьте, есть ли у вас форма администратора
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        if (adminLoginForm) {
+            adminLoginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+    
+                const username = this.adminUsername.value;
+                const password = this.adminPassword.value;
+    
+                if (username === 'adminka' && password === 'password') {
+                    window.location.href = 'Admin.html'; 
+            } else {
+                showMessage('Неверный логин или пароль.', 'adminMessage'); // Не забудьте добавить элемент с id adminMessage
+            }
+        });
+    }
+</script>       
+     
 
 </body>
 </html>
