@@ -105,7 +105,7 @@
             <input type="text" name="fullName" placeholder="ФИО" required>
             <input type="tel" name="phone" placeholder="Номер телефона" required>
             <input type="email" name="email" placeholder="Электронная почта" required>
-            <input type="text" name="username" placeholder="Логин" required> <!-- Изменено на username -->
+            <input type="text" name="username" placeholder="Логин" required> 
             <input type="password" name="password" placeholder="Пароль" required>
             <button type="submit">Зарегистрироваться</button>
             <p>Или уже есть аккаунт? <a class="Enter" href="Entrance.html">Войти</a></p>
@@ -121,10 +121,9 @@
             const fullName = this.fullName.value.trim();
             const phone = this.phone.value.trim();
             const email = this.email.value.trim();
-            const username = this.username.value.trim(); // Изменено на username
+            const username = this.username.value.trim(); 
             const password = this.password.value;
     
-            // Проверка на наличие пользователя с таким логином
             if (localStorage.getItem(username)) {
                 showMessage('Пользователь с таким логином уже зарегистрирован.', 'message');
                 return;
@@ -134,11 +133,11 @@
                 fullName,
                 phone,
                 email,
-                username, // Добавлено поле username
+                username, 
                 password
             };
             
-            localStorage.setItem(username, JSON.stringify(userData)); // Сохраняем данные под логином
+            localStorage.setItem(username, JSON.stringify(userData)); 
             
             showMessage('Вы зарегистрированы', 'goodMessage');
             
@@ -146,7 +145,6 @@
                 window.location.href = 'Entrance.html'; 
             }, 2000);
             
-            // Очистка формы
             this.reset();
         });
     
@@ -154,10 +152,9 @@
             document.getElementById(elementId).textContent = message;
             setTimeout(() => {
                 document.getElementById(elementId).textContent = '';
-            }, 3000); // Убираем сообщение через 3 секунды
+            }, 3000);
         }
         
-        // Проверьте, есть ли у вас форма администратора
         const adminLoginForm = document.getElementById('adminLoginForm');
         if (adminLoginForm) {
             adminLoginForm.addEventListener('submit', function(event) {
@@ -169,7 +166,7 @@
                 if (username === 'adminka' && password === 'password') {
                     window.location.href = 'Admin.html'; 
             } else {
-                showMessage('Неверный логин или пароль.', 'adminMessage'); // Не забудьте добавить элемент с id adminMessage
+                showMessage('Неверный логин или пароль.', 'adminMessage'); 
             }
         });
     }
